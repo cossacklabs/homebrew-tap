@@ -1,6 +1,11 @@
 # cossacklabs/homebrew-core
 
+[![CircleCI][circle-ci-badge]][circle-ci]
+
 Homebrew formulas for CossackLabs products.
+
+[circle-ci]: https://circleci.com/gh/cossacklabs/homebrew-core/tree/master
+[circle-ci-badge]: https://circleci.com/gh/cossacklabs/homebrew-core/tree/master.svg?style=shield
 
 ## Installation
 
