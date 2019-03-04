@@ -1,4 +1,4 @@
-# cossacklabs/homebrew-core
+# cossacklabs/core
 
 [![CircleCI][circle-ci-badge]][circle-ci]
 
@@ -13,7 +13,7 @@ The formulas aren't the part of the core Homebrew repository
 so you will need to add this repository as a new tap:
 
 ```
-brew tap cossacklabs/homebrew-core
+brew tap cossacklabs/core
 brew update
 ```
 
