@@ -13,11 +13,11 @@ jobs:
             brew cleanup
       - checkout
       - run:
-          name: brew tap cossacklabs/core
+          name: brew tap cossacklabs/tap
           command: |
             # Link the checked out working copy instead of actually tapping
             mkdir -p $(brew --repo)/Library/Taps/cossacklabs
-            ln -s $PWD $(brew --repo)/Library/Taps/cossacklabs/homebrew-core
+            ln -s $PWD $(brew --repo)/Library/Taps/cossacklabs/homebrew-tap
       - run: brew install libthemis
       - run: brew audit libthemis --verbose
       - run: brew test libthemis
