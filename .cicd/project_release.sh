@@ -88,8 +88,7 @@ projectrelease_main() {
 
     wget "https://github.com/cossacklabs/${project_github}/archive/${version}.tar.gz" \
         -O "${TMP_DIR}/${project_github}.tar.gz"
-    sha256=$(openssl sha256 -r "${TMP_DIR}/${project_github}.tar.gz" | \
-             awk '{print $1'})
+    sha256=$(sha256sum "${TMP_DIR}/${project_github}.tar.gz" | awk '{print $1'})
 
     cp -f "${BASE_DIR}/Formula.templates/${project}.rb" "${TMP_DIR}/"
 
