@@ -2,8 +2,8 @@ class Libthemis < Formula
   desc 'High-level cryptographic primitives'
   homepage 'https://www.cossacklabs.com/themis'
   head 'https://github.com/cossacklabs/themis.git'
-  url 'https://github.com/cossacklabs/themis/archive/0.10.0.tar.gz'
-  sha256 '329a981e7e57a90107b330172b738104f7189cb20eac043d708c23c5db1570fb'
+  url 'https://github.com/cossacklabs/themis/archive/0.11.0.tar.gz'
+  sha256 '57b8735dd560c5a051b64bf50858fd97d64a7a9e5b80f0ac6adc26d7e2581e7c'
 
   depends_on 'openssl'
 
