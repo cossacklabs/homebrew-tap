@@ -7,12 +7,17 @@ class Libthemis < Formula
 
   depends_on 'openssl'
 
+  option 'with-cpp', 'Install C++ header files for ThemisPP'
+
   def install
     ENV['ENGINE'] = 'openssl'
     ENV['ENGINE_INCLUDE_PATH'] = Formula['openssl'].include
     ENV['ENGINE_LIB_PATH'] = Formula['openssl'].lib
     ENV['PREFIX'] = prefix
     system 'make', 'install'
+    if build.with? 'cpp'
+      system 'make', 'themispp_install'
+    end
   end
 
   test do
