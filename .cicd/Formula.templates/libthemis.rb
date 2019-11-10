@@ -8,6 +8,7 @@ class Libthemis < Formula
   depends_on 'openssl'
 
   option 'with-cpp', 'Install C++ header files for ThemisPP'
+  option 'with-java', 'Install JNI library for JavaThemis'
 
   def install
     ENV['ENGINE'] = 'openssl'
@@ -17,6 +18,9 @@ class Libthemis < Formula
     system 'make', 'install'
     if build.with? 'cpp'
       system 'make', 'themispp_install'
+    end
+    if build.with? 'java'
+      system 'make', 'themis_jni_install'
     end
   end
 
