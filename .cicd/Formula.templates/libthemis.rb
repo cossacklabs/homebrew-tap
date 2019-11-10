@@ -77,5 +77,19 @@ class Libthemis < Formula
     EOF
     system ENV.cc, 'test.c', '-o', 'test', "-I#{include}", "-L#{lib}", '-lthemis'
     system './test'
+    if build.with? 'cpp'
+      (testpath/'test.cpp').write <<~EOF
+        #include <themispp/secure_keygen.hpp>
+
+        int main(void)
+        {
+            themispp::secure_key_pair_generator_t<themispp::EC> keys;
+
+            return EXIT_SUCCESS;
+        }
+      EOF
+      system ENV.cxx, 'test.cpp', '-o', 'test-cpp', "-I#{include}", "-L#{lib}", '-lthemis'
+      system './test-cpp'
+    end
   end
 end
