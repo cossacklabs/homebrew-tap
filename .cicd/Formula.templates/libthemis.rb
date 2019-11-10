@@ -91,5 +91,19 @@ class Libthemis < Formula
       system ENV.cxx, 'test.cpp', '-o', 'test-cpp', "-I#{include}", "-L#{lib}", '-lthemis'
       system './test-cpp'
     end
+    if build.with? 'java'
+      (testpath/'Test.java').write <<~EOF
+        public class Test {
+            static {
+                System.loadLibrary("themis_jni");
+            }
+            public static void main(String[] args) {
+                // Just check that the library has loaded.
+            }
+        }
+      EOF
+      system 'javac', 'Test.java'
+      system 'java', "-Djava.library.path=#{lib}", 'Test'
+    end
   end
 end
