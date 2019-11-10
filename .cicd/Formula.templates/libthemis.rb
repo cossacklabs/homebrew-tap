@@ -24,6 +24,37 @@ class Libthemis < Formula
     end
   end
 
+  def caveats
+    if build.with? 'java'
+      themis_jni_lib = 'libthemis_jni.dylib'
+      java_library_paths = `
+        java -XshowSettings:properties -version 2>&1 \
+        | sed -E 's/^ +[^=]+ =/_&/' \
+        | awk -v prop=java.library.path \
+          'BEGIN { RS = "_"; IFS = " = " }
+           { if($1 ~ prop) {
+               for (i = 3; i <= NF; i++) {
+                 print $i
+               }
+             }
+           }'
+      `
+      <<~EOF
+        Most Java installations do not include Homebrew directories into library
+        search path. Here is current "java.library.path" in your system:
+
+        #{java_library_paths.split("\n").map{|s| '    ' + s}.join("\n")}
+
+        #{themis_jni_lib} has been installed into #{lib}.
+        Make sure to either add #{lib} to "java.library.path",
+        or move #{themis_jni_lib} to a location known by Java.
+
+        Read more: https://docs.cossacklabs.com/pages/java-and-android-howto/
+
+      EOF
+    end
+  end
+
   test do
     (testpath/'test.c').write <<~EOF
       #include <themis/themis.h>
