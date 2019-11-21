@@ -7,12 +7,52 @@ class Libthemis < Formula
 
   depends_on 'openssl'
 
+  option 'with-cpp', 'Install C++ header files for ThemisPP'
+  option 'with-java', 'Install JNI library for JavaThemis'
+
   def install
     ENV['ENGINE'] = 'openssl'
     ENV['ENGINE_INCLUDE_PATH'] = Formula['openssl'].include
     ENV['ENGINE_LIB_PATH'] = Formula['openssl'].lib
     ENV['PREFIX'] = prefix
     system 'make', 'install'
+    if build.with? 'cpp'
+      system 'make', 'themispp_install'
+    end
+    if build.with? 'java'
+      system 'make', 'themis_jni_install'
+    end
+  end
+
+  def caveats
+    if build.with? 'java'
+      themis_jni_lib = 'libthemis_jni.dylib'
+      java_library_paths = `
+        java -XshowSettings:properties -version 2>&1 \
+        | sed -E 's/^ +[^=]+ =/_&/' \
+        | awk -v prop=java.library.path \
+          'BEGIN { RS = "_"; IFS = " = " }
+           { if($1 ~ prop) {
+               for (i = 3; i <= NF; i++) {
+                 print $i
+               }
+             }
+           }'
+      `
+      <<~EOF
+        Most Java installations do not include Homebrew directories into library
+        search path. Here is current "java.library.path" in your system:
+
+        #{java_library_paths.split("\n").map{|s| '    ' + s}.join("\n")}
+
+        #{themis_jni_lib} has been installed into #{lib}.
+        Make sure to either add #{lib} to "java.library.path",
+        or move #{themis_jni_lib} to a location known by Java.
+
+        Read more: https://docs.cossacklabs.com/pages/java-and-android-howto/
+
+      EOF
+    end
   end
 
   test do
@@ -37,5 +77,33 @@ class Libthemis < Formula
     EOF
     system ENV.cc, 'test.c', '-o', 'test', "-I#{include}", "-L#{lib}", '-lthemis'
     system './test'
+    if build.with? 'cpp'
+      (testpath/'test.cpp').write <<~EOF
+        #include <themispp/secure_keygen.hpp>
+
+        int main(void)
+        {
+            themispp::secure_key_pair_generator_t<themispp::EC> keys;
+
+            return EXIT_SUCCESS;
+        }
+      EOF
+      system ENV.cxx, 'test.cpp', '-o', 'test-cpp', "-I#{include}", "-L#{lib}", '-lthemis'
+      system './test-cpp'
+    end
+    if build.with? 'java'
+      (testpath/'Test.java').write <<~EOF
+        public class Test {
+            static {
+                System.loadLibrary("themis_jni");
+            }
+            public static void main(String[] args) {
+                // Just check that the library has loaded.
+            }
+        }
+      EOF
+      system 'javac', 'Test.java'
+      system 'java', "-Djava.library.path=#{lib}", 'Test'
+    end
   end
 end
