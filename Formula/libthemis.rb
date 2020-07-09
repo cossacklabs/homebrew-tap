@@ -3,7 +3,7 @@ class Libthemis < Formula
   homepage 'https://www.cossacklabs.com/themis'
   head 'https://github.com/cossacklabs/themis.git'
   url 'https://github.com/cossacklabs/themis/archive/0.13.0.tar.gz'
-  sha256 '1e67e4fa73776c67a23381d3bfe1b1475ee56d61259bf818ea02c0cded6283a8'
+  sha256 'f59e2e528a830943ba5712152d9f8f08bb539da7643655d6990734d88e7a7847'
 
   depends_on 'openssl'
 
