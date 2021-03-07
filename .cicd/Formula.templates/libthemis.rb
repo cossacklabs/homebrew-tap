@@ -49,7 +49,8 @@ class Libthemis < Formula
         Make sure to either add #{lib} to "java.library.path",
         or move #{themis_jni_lib} to a location known by Java.
 
-        Read more: https://docs.cossacklabs.com/pages/java-and-android-howto/
+        Read more:
+        https://docs.cossacklabs.com/themis/languages/java/installation-desktop/#installing-stable-version-on-macos
 
       EOF
     end
