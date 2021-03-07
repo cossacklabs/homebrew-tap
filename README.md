@@ -1,11 +1,6 @@
 # cossacklabs/tap
 
-[![CircleCI][circle-ci-badge]][circle-ci]
-
 Homebrew formulas for CossackLabs products.
-
-[circle-ci]: https://circleci.com/gh/cossacklabs/homebrew-tap/tree/master
-[circle-ci-badge]: https://circleci.com/gh/cossacklabs/homebrew-tap/tree/master.svg?style=shield
 
 ## Installation
 
