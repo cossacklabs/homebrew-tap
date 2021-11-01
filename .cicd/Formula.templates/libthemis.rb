@@ -5,15 +5,15 @@ class Libthemis < Formula
   url 'https://github.com/cossacklabs/themis/archive/<%CL_THEMIS_VERSION%>.tar.gz'
   sha256 '<%CL_THEMIS_GITHUB_TARGZ_SHA256%>'
 
-  depends_on 'openssl'
+  depends_on 'openssl@1.1'
 
   option 'with-cpp', 'Install C++ header files for ThemisPP'
   option 'with-java', 'Install JNI library for JavaThemis'
 
   def install
     ENV['ENGINE'] = 'openssl'
-    ENV['ENGINE_INCLUDE_PATH'] = Formula['openssl'].include
-    ENV['ENGINE_LIB_PATH'] = Formula['openssl'].lib
+    ENV['ENGINE_INCLUDE_PATH'] = Formula['openssl@1.1'].include
+    ENV['ENGINE_LIB_PATH'] = Formula['openssl@1.1'].lib
     ENV['PREFIX'] = prefix
     system 'make', 'install'
     if build.with? 'cpp'
