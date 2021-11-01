@@ -6,7 +6,7 @@ set -euo pipefail
 projectrelease_help() {
     echo "
 Usage:
-    $(basename $0) --project <PROJECT> --version <VERSION>
+    $(basename $0) --project <PROJECT> --version <VERSION> [--revision <REVISION>]
 
     --project <PROJECT>     update files of PROJECT, one of:
 $(
@@ -17,6 +17,9 @@ done
 
     --version <VERSION>     generate Homebrew files for specified VERSION in
                             SemVer2 format, equal to appropriate GitHub tag
+
+    --revision <REVISION>   specify optional Homebrew formula revision,
+                            defaults to 0
 
 Description:
     This script generates Homebrew files for the new version of the specified
@@ -54,6 +57,15 @@ projectrelease_parse_args() {
                 version="$1"
                 shift
                 ;;
+            (--revision)
+                [[ -n "${1:-}" ]] || projectrelease_raise \
+                    "revision must be present next to --revision option."
+                [[ "$1" =~ ^[0-9]+$ ]] || \
+                    projectrelease_raise \
+                        "incorrect revision format '$1'. integer expected."
+                revision="$1"
+                shift
+                ;;
             (help|--help|-?|--?)
                 projectrelease_help
                 exit 0
@@ -68,6 +80,7 @@ projectrelease_parse_args() {
         projectrelease_help
         exit 1
     fi
+    revision=${revision:-0}
 }
 
 
@@ -94,6 +107,7 @@ projectrelease_main() {
 
     sed -i "s/<%CL_THEMIS_VERSION%>/$version/g" "${TMP_DIR}/${project}.rb"
     sed -i "s/<%CL_THEMIS_GITHUB_TARGZ_SHA256%>/$sha256/g" "${TMP_DIR}/${project}.rb"
+    sed -i "s/<%CL_LIBTHEMIS_REVISION%>/$revision/g" "${TMP_DIR}/${project}.rb"
 
     cp -f "${TMP_DIR}/${project}.rb" "${BASE_DIR}/../Formula/${project}.rb"
 

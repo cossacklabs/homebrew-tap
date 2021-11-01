@@ -4,6 +4,8 @@ class Libthemis < Formula
   head 'https://github.com/cossacklabs/themis.git'
   url 'https://github.com/cossacklabs/themis/archive/<%CL_THEMIS_VERSION%>.tar.gz'
   sha256 '<%CL_THEMIS_GITHUB_TARGZ_SHA256%>'
+  version '<%CL_THEMIS_VERSION%>'
+  revision <%CL_LIBTHEMIS_REVISION%>
 
   depends_on 'openssl@1.1'
 
