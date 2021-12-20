@@ -4,16 +4,18 @@ class Libthemis < Formula
   head 'https://github.com/cossacklabs/themis.git'
   url 'https://github.com/cossacklabs/themis/archive/0.13.0.tar.gz'
   sha256 '4dbe8faff569b8992ee091a207367604db468648503e5e6679a4c89e0918d525'
+  version '0.13.0'
+  revision 1
 
-  depends_on 'openssl'
+  depends_on 'openssl@1.1'
 
   option 'with-cpp', 'Install C++ header files for ThemisPP'
   option 'with-java', 'Install JNI library for JavaThemis'
 
   def install
     ENV['ENGINE'] = 'openssl'
-    ENV['ENGINE_INCLUDE_PATH'] = Formula['openssl'].include
-    ENV['ENGINE_LIB_PATH'] = Formula['openssl'].lib
+    ENV['ENGINE_INCLUDE_PATH'] = Formula['openssl@1.1'].include
+    ENV['ENGINE_LIB_PATH'] = Formula['openssl@1.1'].lib
     ENV['PREFIX'] = prefix
     system 'make', 'install'
     if build.with? 'cpp'
@@ -49,8 +51,8 @@ class Libthemis < Formula
         Make sure to either add #{lib} to "java.library.path",
         or move #{themis_jni_lib} to a location known by Java.
 
-        Read more: https://docs.cossacklabs.com/pages/java-and-android-howto/
-
+        Read more:
+        https://docs.cossacklabs.com/themis/languages/java/installation-desktop/#installing-stable-version-on-macos
       EOF
     end
   end
