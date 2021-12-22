@@ -2,10 +2,10 @@ class Libthemis < Formula
   desc 'High-level cryptographic primitives'
   homepage 'https://www.cossacklabs.com/themis'
   head 'https://github.com/cossacklabs/themis.git'
-  url 'https://github.com/cossacklabs/themis/archive/0.13.0.tar.gz'
-  sha256 '4dbe8faff569b8992ee091a207367604db468648503e5e6679a4c89e0918d525'
-  version '0.13.0'
-  revision 1
+  url 'https://github.com/cossacklabs/themis/archive/0.14.0.tar.gz'
+  sha256 '2efb793e0ef604fb97258b07671a83135ad9229d83b92d7758b43510dcc6cb07'
+  version '0.14.0'
+  revision 0
 
   depends_on 'openssl@1.1'
 
@@ -53,6 +53,7 @@ class Libthemis < Formula
 
         Read more:
         https://docs.cossacklabs.com/themis/languages/java/installation-desktop/#installing-stable-version-on-macos
+
       EOF
     end
   end
