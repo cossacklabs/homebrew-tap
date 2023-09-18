@@ -3,8 +3,8 @@ class Libthemis < Formula
   homepage "https://www.cossacklabs.com/themis"
   url "https://github.com/cossacklabs/themis/archive/0.15.1.tar.gz"
   head "https://github.com/cossacklabs/themis.git"
-  sha256 "0bd25db4c48d25031926f9700718a1bf8807bb60755a97bf9fcd60492f491d0d"
   version "0.15.1"
+  sha256 "0bd25db4c48d25031926f9700718a1bf8807bb60755a97bf9fcd60492f491d0d"
   revision 0
 
   depends_on "openssl@1.1"
@@ -45,7 +45,7 @@ class Libthemis < Formula
         Most Java installations do not include Homebrew directories into library
         search path. Here is current "java.library.path" in your system:
 
-        #{java_library_paths.split("\n").map{ |s| "    " + s }.join("\n")}
+        #{java_library_paths.split("\n").map { |s| "    " + s }.join("\n")}
 
         #{themis_jni_lib} has been installed into #{lib}.
         Make sure to either add #{lib} to "java.library.path",
