@@ -1,34 +1,34 @@
 class Libthemis < Formula
-  desc 'High-level cryptographic primitives'
-  homepage 'https://www.cossacklabs.com/themis'
-  head 'https://github.com/cossacklabs/themis.git'
-  url 'https://github.com/cossacklabs/themis/archive/0.14.0.tar.gz'
-  sha256 '2efb793e0ef604fb97258b07671a83135ad9229d83b92d7758b43510dcc6cb07'
-  version '0.14.0'
+  desc "High-level cryptographic primitives"
+  homepage "https://www.cossacklabs.com/themis"
+  head "https://github.com/cossacklabs/themis.git"
+  url "https://github.com/cossacklabs/themis/archive/0.15.1.tar.gz"
+  sha256 "0bd25db4c48d25031926f9700718a1bf8807bb60755a97bf9fcd60492f491d0d"
+  version "0.15.1"
   revision 0
 
-  depends_on 'openssl@1.1'
+  depends_on "openssl@1.1"
 
-  option 'with-cpp', 'Install C++ header files for ThemisPP'
-  option 'with-java', 'Install JNI library for JavaThemis'
+  option "with-cpp", "Install C++ header files for ThemisPP"
+  option "with-java", "Install JNI library for JavaThemis"
 
   def install
-    ENV['ENGINE'] = 'openssl'
-    ENV['ENGINE_INCLUDE_PATH'] = Formula['openssl@1.1'].include
-    ENV['ENGINE_LIB_PATH'] = Formula['openssl@1.1'].lib
-    ENV['PREFIX'] = prefix
-    system 'make', 'install'
-    if build.with? 'cpp'
-      system 'make', 'themispp_install'
+    ENV["ENGINE"] = "openssl"
+    ENV["ENGINE_INCLUDE_PATH"] = Formula["openssl@1.1"].include
+    ENV["ENGINE_LIB_PATH"] = Formula["openssl@1.1"].lib
+    ENV["PREFIX"] = prefix
+    system "make", "install"
+    if build.with? "cpp"
+      system "make", "themispp_install"
     end
-    if build.with? 'java'
-      system 'make', 'themis_jni_install'
+    if build.with? "java"
+      system "make", "themis_jni_install"
     end
   end
 
   def caveats
-    if build.with? 'java'
-      themis_jni_lib = 'libthemis_jni.dylib'
+    if build.with? "java"
+      themis_jni_lib = "libthemis_jni.dylib"
       java_library_paths = `
         java -XshowSettings:properties -version 2>&1 \
         | sed -E 's/^ +[^=]+ =/_&/' \
@@ -59,7 +59,7 @@ class Libthemis < Formula
   end
 
   test do
-    (testpath/'test.c').write <<~EOF
+    (testpath/"test.c").write <<~EOF
       #include <themis/themis.h>
 
       int main(void)
@@ -78,9 +78,9 @@ class Libthemis < Formula
               : EXIT_FAILURE;
       }
     EOF
-    system ENV.cc, 'test.c', '-o', 'test', "-I#{include}", "-L#{lib}", '-lthemis'
-    system './test'
-    if build.with? 'cpp'
+    system ENV.cc, "test.c", "-o", "test", "-I#{include}", "-L#{lib}", "-lthemis"
+    system "./test"
+    if build.with? "cpp"
       (testpath/'test.cpp').write <<~EOF
         #include <themispp/secure_keygen.hpp>
 
@@ -91,11 +91,11 @@ class Libthemis < Formula
             return EXIT_SUCCESS;
         }
       EOF
-      system ENV.cxx, 'test.cpp', '-o', 'test-cpp', "-I#{include}", "-L#{lib}", '-lthemis'
-      system './test-cpp'
+      system ENV.cxx, "test.cpp", "-o", "test-cpp", "-I#{include}", "-L#{lib}", "-lthemis"
+      system "./test-cpp"
     end
-    if build.with? 'java'
-      (testpath/'Test.java').write <<~EOF
+    if build.with? "java"
+      (testpath/"Test.java").write <<~EOF
         public class Test {
             static {
                 System.loadLibrary("themis_jni");
@@ -105,8 +105,8 @@ class Libthemis < Formula
             }
         }
       EOF
-      system 'javac', 'Test.java'
-      system 'java', "-Djava.library.path=#{lib}", 'Test'
+      system "javac", "Test.java"
+      system "java", "-Djava.library.path=#{lib}", "Test"
     end
   end
 end
