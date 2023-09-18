@@ -7,15 +7,15 @@ class Libthemis < Formula
   sha256 "0bd25db4c48d25031926f9700718a1bf8807bb60755a97bf9fcd60492f491d0d"
   revision 0
 
-  depends_on "openssl@1.1"
+  depends_on "openssl@3"
 
   option "with-cpp", "Install C++ header files for ThemisPP"
   option "with-java", "Install JNI library for JavaThemis"
 
   def install
     ENV["ENGINE"] = "openssl"
-    ENV["ENGINE_INCLUDE_PATH"] = Formula["openssl@1.1"].include
-    ENV["ENGINE_LIB_PATH"] = Formula["openssl@1.1"].lib
+    ENV["ENGINE_INCLUDE_PATH"] = Formula["openssl@3"].include
+    ENV["ENGINE_LIB_PATH"] = Formula["openssl@3"].lib
     ENV["PREFIX"] = prefix
     system "make", "install"
     if build.with? "cpp"
