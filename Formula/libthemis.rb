@@ -45,7 +45,7 @@ class Libthemis < Formula
         Most Java installations do not include Homebrew directories into library
         search path. Here is current "java.library.path" in your system:
 
-        #{java_library_paths.split("\n").map {|s| '    ' + s}.join("\n")}
+        #{java_library_paths.split("\n").map{|s| '    ' + s}.join("\n")}
 
         #{themis_jni_lib} has been installed into #{lib}.
         Make sure to either add #{lib} to "java.library.path",
