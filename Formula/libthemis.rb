@@ -33,7 +33,7 @@ class Libthemis < Formula
         java -XshowSettings:properties -version 2>&1 \
         | sed -E 's/^ +[^=]+ =/_&/' \
         | awk -v prop=java.library.path \
-          'BEGIN { RS = '_'; IFS = ' = ' }
+          'BEGIN { RS = "_"; IFS = " = " }
            { if($1 ~ prop) {
                for (i = 3; i <= NF; i++) {
                  print $i
@@ -43,12 +43,12 @@ class Libthemis < Formula
       `
       <<~EOF
         Most Java installations do not include Homebrew directories into library
-        search path. Here is current 'java.library.path' in your system:
+        search path. Here is current "java.library.path" in your system:
 
-        #{java_library_paths.split('\n').map { |s| '    ' + s }.join('\n')}
+        #{java_library_paths.split("\n").map {|s| '    ' + s}.join("\n")}
 
         #{themis_jni_lib} has been installed into #{lib}.
-        Make sure to either add #{lib} to 'java.library.path',
+        Make sure to either add #{lib} to "java.library.path",
         or move #{themis_jni_lib} to a location known by Java.
 
         Read more:
@@ -78,7 +78,7 @@ class Libthemis < Formula
               : EXIT_FAILURE;
       }
     EOF
-    system ENV.cc, 'test.c', '-o', 'test', '-I#{include}', '-L#{lib}', '-lthemis'
+    system ENV.cc, 'test.c', '-o', 'test', "-I#{include}", "-L#{lib}", '-lthemis'
     system './test'
     if build.with? 'cpp'
       (testpath/'test.cpp').write <<~EOF
@@ -91,14 +91,14 @@ class Libthemis < Formula
             return EXIT_SUCCESS;
         }
       EOF
-      system ENV.cxx, 'test.cpp', '-o', 'test-cpp', '-I#{include}', '-L#{lib}', '-lthemis'
+      system ENV.cxx, 'test.cpp', '-o', 'test-cpp', "-I#{include}", "-L#{lib}", '-lthemis'
       system './test-cpp'
     end
     if build.with? 'java'
       (testpath/'Test.java').write <<~EOF
         public class Test {
             static {
-                System.loadLibrary('themis_jni');
+                System.loadLibrary("themis_jni");
             }
             public static void main(String[] args) {
                 // Just check that the library has loaded.
@@ -106,7 +106,7 @@ class Libthemis < Formula
         }
       EOF
       system 'javac', 'Test.java'
-      system 'java', '-Djava.library.path=#{lib}', 'Test'
+      system 'java', "-Djava.library.path=#{lib}", 'Test'
     end
   end
 end
